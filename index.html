@@ -3,9 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Trading Card Game Manager</title>
+    <style>
+        :root {
+            --background-dark: #1e1e2f;
+            --text-light: #ffffff;
+            --primary-color: #4caf50;
+            --secondary-color: #29293d;
+            --highlight-color: #6fdc8c;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: var(--background-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: var(--secondary-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--highlight-color);
+        }
+
+        .container {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: var(--secondary-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            border: none;
+            color: var(--text-light);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--highlight-color);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--secondary-color);
+            color: var(--text-light);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 500px;
+        }
+
+        .modal.active {
+            display: block;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .modal-body {
+            margin-top: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+    </style>
 </head>
 <body>
-    
+    <header>
+        <h1>TCG Manager</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="profile.html">Profile</a>
+            <a href="inventory.html">Inventory</a>
+            <a href="trades.html">Trades</a>
+            <a href="feed.html">Feed</a>
+            <a href="chat.html">Chat</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Welcome to the Trading Card Game Manager!</h2>
+
+        <div class="card">
+            <h3>Feature Placeholder</h3>
+            <p>Placeholder content for features like user profiles, inventory, and trading functionality.</p>
+            <button onclick="openModal('exampleModal')">Open Modal Example</button>
+        </div>
+
+        <div class="modal" id="exampleModal">
+            <div class="modal-header">
+                <h3>Modal Title</h3>
+                <button onclick="closeModal('exampleModal')">Close</button>
+            </div>
+            <div class="modal-body">
+                <p>This is an example modal. Add your dynamic content here!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Page Navigation
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.href = link.getAttribute('href');
+            });
+        });
+
+        // Modal control
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        // Backend placeholders
+        function login() {
+            console.log("Login backend logic placeholder");
+        }
+
+        function register() {
+            console.log("Register backend logic placeholder");
+        }
+
+        function fetchProfile() {
+            console.log("Fetch profile backend logic placeholder");
+        }
+
+        function updateProfile() {
+            console.log("Update profile backend logic placeholder");
+        }
+
+        function fetchInventory() {
+            console.log("Fetch inventory backend logic placeholder");
+        }
+
+        function createTrade() {
+            console.log("Create trade backend logic placeholder");
+        }
+
+        function fetchTrades() {
+            console.log("Fetch trades backend logic placeholder");
+        }
+
+        function createPost() {
+            console.log("Create post backend logic placeholder");
+        }
+
+        function fetchPosts() {
+            console.log("Fetch posts backend logic placeholder");
+        }
+
+        function sendMessage() {
+            console.log("Send message backend logic placeholder");
+        }
+
+        function fetchMessages() {
+            console.log("Fetch messages backend logic placeholder");
+        }
+    </script>
 </body>
 </html>

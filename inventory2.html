@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory - TCG Manager</title>
+    <style>
+        :root {
+            --background-dark: #1e1e2f;
+            --text-light: #ffffff;
+            --primary-color: #4caf50;
+            --secondary-color: #29293d;
+            --highlight-color: #6fdc8c;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: var(--background-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: var(--secondary-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--highlight-color);
+        }
+
+        .container {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .card-item {
+            background-color: var(--secondary-color);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .card-item:hover {
+            transform: scale(1.05);
+            background-color: #333;
+        }
+
+        .card-item img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--secondary-color);
+            color: var(--text-light);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 400px;
+        }
+
+        .modal.active {
+            display: block;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>TCG Manager</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="profile.html">Profile</a>
+            <a href="trading_page.html">Trading</a>
+            <a href="feed.html">Feed</a>
+            <a href="chat.html">Chat</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Your Inventory</h2>
+        <div class="inventory-grid" id="inventory-grid">
+            <!-- Cards will be dynamically populated here -->
+        </div>
+    </div>
+
+    <div class="modal" id="card-modal">
+        <div class="modal-header">
+            <h3 id="card-name">Card Name</h3>
+            <button onclick="closeModal('card-modal')">Close</button>
+        </div>
+        <div class="modal-body">
+            <img id="card-image" src="#" alt="Card Image">
+            <p id="card-description">Card Description</p>
+            <p><strong>Rarity:</strong> <span id="card-rarity">Common</span></p>
+        </div>
+    </div>
+
+    <script>
+        const inventory = [
+            { 
+                id: 1, 
+                name: "Fire Dragon", 
+                image: "https://via.placeholder.com/150?text=Fire+Dragon", 
+                description: "A fiery dragon that burns all in its path.", 
+                rarity: "Rare" 
+            },
+            { 
+                id: 2, 
+                name: "Ice Phoenix", 
+                image: "https://via.placeholder.com/150?text=Ice+Phoenix", 
+                description: "A mythical phoenix that freezes everything.", 
+                rarity: "Epic" 
+            },
+            { 
+                id: 3, 
+                name: "Earth Golem", 
+                image: "https://via.placeholder.com/150?text=Earth+Golem", 
+                description: "A powerful golem made of solid rock.", 
+                rarity: "Uncommon" 
+            }
+        ];
+
+        function loadInventory() {
+            const inventoryGrid = document.getElementById('inventory-grid');
+            inventory.forEach(card => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'card-item';
+                cardElement.innerHTML = `
+                    <img src="${card.image}" alt="${card.name}">
+                    <p><strong>${card.name}</strong></p>
+                `;
+                cardElement.onclick = () => showCardDetails(card);
+                inventoryGrid.appendChild(cardElement);
+            });
+        }
+
+        function showCardDetails(card) {
+            document.getElementById('card-name').textContent = card.name;
+            document.getElementById('card-image').src = card.image;
+            document.getElementById('card-description').textContent = card.description;
+            document.getElementById('card-rarity').textContent = card.rarity;
+            openModal('card-modal');
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        // Initialize inventory on page load
+        loadInventory();
+    </script>
+</body>
+</html>
