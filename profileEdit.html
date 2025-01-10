@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - TCG Manager</title>
+    <style>
+        :root {
+            --background-dark: #1e1e2f;
+            --text-light: #ffffff;
+            --primary-color: #4caf50;
+            --secondary-color: #29293d;
+            --highlight-color: #6fdc8c;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: var(--background-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: var(--secondary-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--highlight-color);
+        }
+
+        .container {
+            padding: 40px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: var(--secondary-color);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            border: none;
+            color: var(--text-light);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--highlight-color);
+        }
+
+        .profile-preview {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-preview img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>TCG Manager</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="profile.html">Profile</a>
+            <a href="inventory.html">Inventory</a>
+            <a href="feed.html">Feed</a>
+            <a href="chat.html">Chat</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Edit Profile</h2>
+            <div class="profile-preview">
+                <img src="https://via.placeholder.com/100" alt="Profile Icon" id="profile-icon-preview">
+                <p id="username-preview">Username</p>
+            </div>
+            <form id="edit-profile-form">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username" required>
+
+                <label for="display-name">Display Name</label>
+                <input type="text" id="display-name" placeholder="Enter your display name" required>
+
+                <label for="profile-icon">Profile Icon URL</label>
+                <input type="text" id="profile-icon" placeholder="Enter a URL for your profile icon">
+
+                <label for="description">Description</label>
+                <textarea id="description" placeholder="Enter a short description"></textarea>
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Placeholder backend function
+        function saveProfile(profileData) {
+            console.log("Saving profile...", profileData);
+            // Simulate backend save operation
+            alert("Profile saved successfully!");
+        }
+
+        document.getElementById('edit-profile-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const profileData = {
+                username: document.getElementById('username').value,
+                displayName: document.getElementById('display-name').value,
+                profileIcon: document.getElementById('profile-icon').value,
+                description: document.getElementById('description').value
+            };
+
+            // Update the preview
+            document.getElementById('profile-icon-preview').src = profileData.profileIcon || 'https://via.placeholder.com/100';
+            document.getElementById('username-preview').textContent = profileData.username;
+
+            // Call the backend placeholder function
+            saveProfile(profileData);
+        });
+        // Redirect to login if not logged in
+        const userToken = localStorage.getItem('userToken');
+        if (!userToken) {
+            window.location.href = "login.html"; // Redirect to login page
+        }
+    </script>
+</body>
+</html>

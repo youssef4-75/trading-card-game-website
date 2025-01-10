@@ -146,8 +146,6 @@
             <a href="profile.html">Profile</a>
             <a href="inventory.html">Inventory</a>
             <a href="trades.html">Trades</a>
-            <a href="feed.html">Feed</a>
-            <a href="chat.html">Chat</a>
         </nav>
     </header>
 
@@ -182,7 +180,7 @@
     </div>
 
     <script>
-        const inventory = [
+        let inventory = [
             { 
                 id: 1, 
                 name: "Fire Dragon", 
@@ -212,6 +210,13 @@
                 rarity: "Common"
             }
         ];
+        
+        function getInventory() {
+            //give me the inventory in the format above
+            //set the inventory variable to whatever what selected
+        }
+
+        getInventory()
 
         function loadInventory(cards) {
             const inventoryGrid = document.getElementById('inventory-grid');
@@ -257,6 +262,11 @@
 
         // Load all cards initially
         loadInventory(inventory);
+        // Redirect to login if not logged in
+        const userToken = localStorage.getItem('userToken');
+        if (!userToken) {
+            window.location.href = "login.html"; // Redirect to login page
+        }
     </script>
 </body>
 </html>

@@ -119,8 +119,6 @@
             <a href="profile.html">Profile</a>
             <a href="inventory.html">Inventory</a>
             <a href="trades.html">Trades</a>
-            <a href="feed.html">Feed</a>
-            <a href="chat.html">Chat</a>
         </nav>
     </header>
 
@@ -205,6 +203,11 @@
 
         function fetchMessages() {
             console.log("Fetch messages backend logic placeholder");
+        }
+        // Redirect to login if not logged in
+        const userToken = localStorage.getItem('userToken');
+        if (!userToken) {
+            window.location.href = "login.html"; // Redirect to login page
         }
     </script>
 </body>

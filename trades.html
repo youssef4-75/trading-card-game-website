@@ -132,6 +132,19 @@
             height: auto;
             margin-bottom: 10px;
         }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -142,29 +155,17 @@
             <a href="profile.html">Profile</a>
             <a href="inventory.html">Inventory</a>
             <a href="trades.html">Trades</a>
-            <a href="feed.html">Feed</a>
-            <a href="chat.html">Chat</a>
         </nav>
     </header>
 
     <div class="container">
         <div class="card">
             <h2>Trade Requests</h2>
+            <div class="search-bar">
+                <input type="text" id="search-trades" placeholder="Search trades by card name or user...">
+            </div>
             <ul class="trade-list" id="trade-list">
-                <li onclick="showTradeDetails(1)">
-                    <div class="trade-info">
-                        <p><strong>Offered Cards:</strong> Fire Dragon, Ice Phoenix</p>
-                        <p><strong>Requested Cards:</strong> Earth Golem, Lightning Tiger</p>
-                        <p><strong>Request by:</strong> CardMaster123</p>
-                    </div>
-                </li>
-                <li onclick="showTradeDetails(2)">
-                    <div class="trade-info">
-                        <p><strong>Offered Cards:</strong> Water Serpent</p>
-                        <p><strong>Requested Cards:</strong> Thunder Hawk</p>
-                        <p><strong>Request by:</strong> CardCollector99</p>
-                    </div>
-                </li>
+                
             </ul>
         </div>
 
@@ -193,7 +194,7 @@
     </div>
 
     <script>
-        const trades = [
+        let trades = [
             {
                 id: 1,
                 offeredCards: ["Fire Dragon", "Ice Phoenix"],
@@ -248,11 +249,43 @@
         });
 
         function loadTrades() {
-            console.log("Load trades backend logic placeholder");
-            // Placeholder for fetching trades from backend
+            // get the trades and put them in the trades variable
+            //also when you finish this function, can you clear the trades variable?
+            filterTrades()
         }
 
+        function filterTrades() {
+            const searchInput = document.getElementById('search-trades').value.toLowerCase();
+            const tradeList = document.getElementById('trade-list');
+            tradeList.innerHTML = '';
+
+            const filteredTrades = trades.filter(trade =>
+                trade.offeredCards.some(card => card.toLowerCase().includes(searchInput)) ||
+                trade.requestedCards.some(card => card.toLowerCase().includes(searchInput)) ||
+                trade.requestedBy.toLowerCase().includes(searchInput)
+            );
+
+            filteredTrades.forEach(trade => {
+                const tradeItem = document.createElement('li');
+                tradeItem.onclick = () => showTradeDetails(trade.id);
+                tradeItem.innerHTML = `
+                    <div class="trade-info">
+                        <p><strong>Offered Cards:</strong> ${trade.offeredCards.join(', ')}</p>
+                        <p><strong>Requested Cards:</strong> ${trade.requestedCards.join(', ')}</p>
+                        <p><strong>Request by:</strong> ${trade.requestedBy}</p>
+                    </div>
+                `;
+                tradeList.appendChild(tradeItem);
+            });
+        }
+
+        document.getElementById('search-trades').addEventListener('input', filterTrades);
         loadTrades();
+        // Redirect to login if not logged in
+        const userToken = localStorage.getItem('userToken');
+        if (!userToken) {
+            window.location.href = "login.html"; // Redirect to login page
+        }
     </script>
 </body>
 </html>

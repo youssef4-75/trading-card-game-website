@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register - TCG Manager</title>
+    <style>
+        :root {
+            --background-dark: #1e1e2f;
+            --text-light: #ffffff;
+            --primary-color: #4caf50;
+            --secondary-color: #29293d;
+            --highlight-color: #6fdc8c;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: var(--background-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .container {
+            padding: 40px 20px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: var(--secondary-color);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        input {
+            width: 95%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            border: none;
+            color: var(--text-light);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: var(--highlight-color);
+        }
+
+        .toggle {
+            margin-top: 15px;
+            color: var(--highlight-color);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card" id="auth-card">
+            <h2 id="auth-title">Login</h2>
+            <form id="auth-form">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+
+                <div id="register-extra-fields" style="display: none;">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Choose a username">
+
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" placeholder="Confirm your password">
+                </div>
+
+                <button type="submit" id="auth-submit">Login</button>
+            </form>
+            <p class="toggle" id="toggle-auth">Don't have an account? Register here.</p>
+        </div>
+    </div>
+
+    <script>
+        let isLogin = true;
+
+        const toggleAuth = document.getElementById('toggle-auth');
+        const authTitle = document.getElementById('auth-title');
+        const authSubmit = document.getElementById('auth-submit');
+        const registerExtraFields = document.getElementById('register-extra-fields');
+
+        toggleAuth.addEventListener('click', function () {
+            isLogin = !isLogin;
+
+            if (isLogin) {
+                authTitle.textContent = 'Login';
+                authSubmit.textContent = 'Login';
+                toggleAuth.textContent = "Don't have an account? Register here.";
+                registerExtraFields.style.display = 'none';
+            } else {
+                authTitle.textContent = 'Register';
+                authSubmit.textContent = 'Register';
+                toggleAuth.textContent = 'Already have an account? Login here.';
+                registerExtraFields.style.display = 'block';
+            }
+        });
+
+        // Placeholder backend functions
+        function login(email, password) {
+            //get the logins from the database
+            //compare them with the inserted logins
+            //if they're successful, run the following code
+            //also look up how the tokens work, cuz they have to do with backend
+            const token = "example_token_here"; // Replace with real token from backend
+            localStorage.setItem('userToken', token);
+            alert("Login successful!");
+            window.location.href = "profile.html"; // Redirect to the profile page
+        }
+
+        function register(email, password, username) {
+            console.log("Registering with", { email, password, username });
+            alert("Registration successful!");
+            //get the logins from the database
+            //check if they dont already exist
+            //add the new logins to the databse
+            //run the login function to automatically connect the user
+        }
+
+        document.getElementById('auth-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (isLogin) {
+                login(email, password);
+            } else {
+                const username = document.getElementById('username').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+
+                if (password !== confirmPassword) {
+                    alert("Passwords do not match!");
+                    return;
+                }
+
+                register(email, password, username);
+            }
+        });
+    </script>
+</body>
+</html>

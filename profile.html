@@ -134,8 +134,6 @@
             <a href="profile.html">Profile</a>
             <a href="inventory.html">Inventory</a>
             <a href="trades.html">Trades</a>
-            <a href="feed.html">Feed</a>
-            <a href="chat.html">Chat</a>
         </nav>
     </header>
 
@@ -148,12 +146,13 @@
                     <p id="displayName">Display Name: Player123</p>
                     <p id="description">Description: A passionate card collector and trader.</p>
                     <button onclick="editProfile()">Edit Profile</button>
+                    <button onclick="logout()">Log Out</button>
                 </div>
             </div>
         </div>
 
         <div class="card">
-            <h3>Inventory</h3>
+            <h3>display</h3>
             <ul class="inventory-list" id="inventory">
                 <li>
                     <span class="item-name">Card Name 1</span>
@@ -174,7 +173,7 @@
     <script>
         function editProfile() {
             console.log("Edit profile backend logic placeholder");
-            alert("Edit profile feature coming soon!");
+            window.location.href = 'profileEdit.html';
         }
 
         function loadProfile() {
@@ -192,11 +191,18 @@
         function loadInventory() {
             console.log("Load inventory backend logic placeholder");
             // Placeholder inventory data
-            const inventory = [
+            let inventory = [
                 { name: "Fire Dragon", rarity: "Rare" },
                 { name: "Ice Phoenix", rarity: "Legendary" },
                 { name: "Earth Golem", rarity: "Common" }
             ];
+
+            function getDisplay() {
+                //give me the display in the format above
+                //set the display variable to whatever what selected
+            }
+
+            getDisplay()
 
             const inventoryList = document.getElementById("inventory");
             inventoryList.innerHTML = "";
@@ -211,9 +217,19 @@
             });
         }
 
+        function logout() {
+            localStorage.removeItem('userToken');
+            alert("Logged out successfully!");
+            window.location.href = "login.html"; // Redirect to login page
+        }
+
         // Simulate loading data on page load
         loadProfile();
-        loadInventory();
+        // Redirect to login if not logged in
+        const userToken = localStorage.getItem('userToken');
+        if (!userToken) {
+            window.location.href = "login.html"; // Redirect to login page
+        }
     </script>
 </body>
 </html>
