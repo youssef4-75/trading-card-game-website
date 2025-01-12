@@ -31,11 +31,62 @@ let inventory = [
 ];
 
 function getInventory() {
-    //give me the inventory in the format above
-    //set the inventory variable to whatever what selected
+    const token = localStorage.getItem('userToken'); // Retrieve token from local storage
+
+    if (!token) {
+        console.error('Token is not found in local storage');
+        window.location.href = "login.html";
+        return;
+    }
+
+    const url = getURL(`inventory`);
+    
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token }),
+    })
+    .then(response => {
+        if (response.status === 401) {
+            return response.json().then((data) => {
+                alert(data.message); // Show alert: 'Token is missing'
+                window.location.href = "login.html"; // Redirect to login page
+            });
+        }
+        if (!response.ok) {
+            return response.json().then(data => {
+                throw new Error(data.message || 'Failed to fetch user inventory');
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('User inventory fetched successfully:', data.data);
+        // inventory.length = 0;  
+        data.data.forEach(card =>{
+            inventory.push({ 
+                id: card.card_id,
+                name: card.card_name,
+                image: card.image_url,
+                description: card.card_description,
+                rarity: card.rarity
+            })
+        });
+        loadInventory(inventory);
+
+    })
+    .catch(error => {
+        console.error('Error fetching user data:', error.message);
+        alert(error.message); // Show an error message to the user
+    });
+
+
 }
 
-getInventory()
+getInventory();
 
 function loadInventory(cards) {
     const inventoryGrid = document.getElementById('inventory-grid');
@@ -80,7 +131,7 @@ function applyFilters() {
 }
 
 // Load all cards initially
-loadInventory(inventory);
+
 // Redirect to login if not logged in
 const userToken = localStorage.getItem('userToken');
 if (!userToken) {

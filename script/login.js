@@ -6,6 +6,19 @@ const authTitle = document.getElementById('auth-title');
 const authSubmit = document.getElementById('auth-submit');
 const registerExtraFields = document.getElementById('register-extra-fields');
 
+function handleResponseData(prefix, data) {
+    console.log(data);
+    if (data && data.token) {
+        const token = data.token; // Replace with real token from backend
+        localStorage.setItem('userToken', token);
+        alert("Login successful!");
+        window.location.href = "profile.html"; // Redirect to the profile page
+    } else {
+        alert(prefix + "Error:" + data);
+    }
+}
+
+
 toggleAuth.addEventListener('click', function () {
     isLogin = !isLogin;
 
@@ -24,23 +37,67 @@ toggleAuth.addEventListener('click', function () {
 
 // Placeholder backend functions
 function login(email, password) {
-    //get the logins from the database
-    //compare them with the inserted logins
-    //if they're successful, run the following code
-    //also look up how the tokens work, cuz they have to do with backend
-    const token = "example_token_here"; // Replace with real token from backend
-    localStorage.setItem('userToken', token);
-    alert("Login successful!");
-    window.location.href = "profile.html"; // Redirect to the profile page
+
+
+    const url = getURL(`authenticate`);
+    const message = {
+        email,
+        password,
+        newUser: false
+    };
+    
+    fetch(url, {
+        method: "POST", // GET, POST, etc.
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(message)
+    })
+    .then(response => {
+        if (!response.ok) {
+            // Handle the 401 Unauthorized error here
+            return response.json().then(data => {
+                throw new Error(data.message || 'Unauthorized');
+            });
+        }
+        return response.json(); 
+        
+    })
+    .then(data => handleResponseData('Success:', data))
+    .catch(error => console.error('Error:', error));
+
 }
 
 function register(email, password, username) {
-    console.log("Registering with", { email, password, username });
-    alert("Registration successful!");
-    //get the logins from the database
-    //check if they dont already exist
-    //add the new logins to the databse
-    //run the login function to automatically connect the user
+
+    const url = getURL(`authenticate`);
+    const message = {
+        email,
+        password,
+        username,
+        newUser: true
+    };
+    
+    fetch(url, {
+        method: "POST", // GET, POST, etc.
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(message)
+    })
+    .then(response => {
+        if (!response.ok) {
+            // Handle the 401 Unauthorized error here
+            return response.json().then(data => {
+                throw new Error(data.message || 'Unauthorized');
+            });
+        }
+        return response.json(); 
+        
+    })
+    .then(data => handleResponseData("Succes", data))
+    .catch(error => console.error('Error:', error));
+
 }
 
 document.getElementById('auth-form').addEventListener('submit', function (e) {

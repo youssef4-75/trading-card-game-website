@@ -49,6 +49,8 @@ document.getElementById('trade-form').addEventListener('submit', function (e) {
 
     console.log(`New trade created: Offered ${offeredCards}, Requested ${requestedCards}`);
 
+    // a place for me to add backend connection to create this trade request
+
     alert(`Trade created: Offered ${offeredCards} for ${requestedCards}`);
     document.getElementById('trade-form').reset();
 });
