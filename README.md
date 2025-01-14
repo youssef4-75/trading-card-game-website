@@ -40,3 +40,6 @@ This project is a web-based platform that allows users to manage their trading c
 3. **Trading**:
    - Create a trade by offering cards and specifying cards you want in return.
    - Review and respond to trade requests.
+
+### server set up repo:
+https://github.com/youssef4-75/trading_card_game_server
