@@ -86,8 +86,9 @@ nav a:hover {
 }
 
 .card-item img {
-    max-width: 100%;
-    height: auto;
+    width: 90%;
+    height: 20vh;
+    
     margin-bottom: 10px;
     border-radius: 8px;
 }
@@ -129,4 +130,19 @@ button:hover {
 .modal-header {
     display: flex;
     justify-content: space-between;
+}
+
+.image{
+    width: 30vw;
+    height: 65vh;
+    /* background-color: #fff; */
+    margin-left: 1vw;
+    margin-top: 2vh;
+    overflow: scroll;
+    scrollbar-width: none;
+}
+
+.image img{
+    height: 100%;
+    border-radius: 17px;
 }

@@ -10,7 +10,6 @@
     <header>
         <h1>TCG Manager</h1>
         <nav>
-            <a href="index.html">Home</a>
             <a href="profile.html">Profile</a>
             <a href="inventory.html">Inventory</a>
             <a href="trades.html">Trades</a>
@@ -27,6 +26,7 @@
                 <option value="Uncommon">Uncommon</option>
                 <option value="Rare">Rare</option>
                 <option value="Epic">Epic</option>
+                <option value="Legendary">Legendary</option>
             </select>
             <button onclick="applyFilters()">Filter</button>
         </div>
@@ -41,7 +41,9 @@
             <button onclick="closeModal('card-modal')">Close</button>
         </div>
         <div class="modal-body">
-            <img id="card-image" src="#" alt="Card Image">
+            <div class="image">
+                <img id="card-image" src="#" alt="Card Image">
+            </div>
             <p id="card-description">Card Description</p>
             <p><strong>Rarity:</strong> <span id="card-rarity">Common</span></p>
         </div>

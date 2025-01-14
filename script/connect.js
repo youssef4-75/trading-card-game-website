@@ -1,25 +1,51 @@
+// response => {
+//     if (response.status === 401) {
+//         return response.json().then((data) => {
+//             alert(data.message); // Show alert: 'Token is missing'
+//             window.location.href = "login.html"; // Redirect to login page
+//         });
+//     }
+//     if (!response.ok) {
+//         return response.json().then(data => {
+//             throw new Error(data.message || 'Failed to fetch user inventory');
+//         });
+//     }
+//     return response.json();
 
 
-function sendRequest(serverAddress, port, route, message, method, handleResponseData, isString=-1){
-    const url = `http://${serverAddress}:${port}/${route}`;
-    if(isString === -1){
-        throw "you need to identify your return type";
+function defaulthandleResponse(response){
+    if (response.status === 401) {
+        return response.json().then((data) => {
+            alert(data.message); // Show alert: 'Token is missing'
+            window.location.href = "login.html"; // Redirect to login page
+        });
     }
-    message.retType = isString;
-    fetch(url, {
+    if (!response.ok) {
+        return response.json().then(data => {
+            throw new Error(data.message || 'Failed to fetch user inventory');
+        });
+    }
+    return response.json();
+}
+
+function sendRequest(route, message, method, error_message, handleResponseData, handleResponse = defaulthandleResponse){
+    const url = getURL(route);
+    const up_message = {
         method: method, // GET, POST, etc.
         headers: {
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(message)
-    })
-    .then(response => {
-        if(isString) response.text();
-        else response.json();
-        console.log(response);
-    })
-    .then(data => handleResponseData('Success:', data))
-    .catch(error => console.error('Error:', error));
+        }
+    };
+
+    if(method != 'GET') up_message.body = JSON.stringify(message)
+
+    fetch(url, up_message)
+    .then(handleResponse)
+    .then(handleResponseData)
+    .catch(error => {
+        console.error(error_message, error.message);
+        alert(error.message); // Show an error message to the user
+    });
 }
 
 function getURL(route){

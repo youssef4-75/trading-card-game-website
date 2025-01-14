@@ -105,7 +105,8 @@ button:hover {
     display: flex;
     justify-content: space-between;
     padding: 10px;
-    background-color: var(--secondary-color);
+    /* background-color: var(--secondary-color); */
+    /* background-image: linear-gradient(to right, var(--color1), var(--color2)); */
     margin-bottom: 10px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -117,4 +118,12 @@ button:hover {
 
 .inventory-list .item-name {
     font-weight: bold;
+}
+
+
+.rarity_field{
+    padding: 10px;
+    border-radius: 17px;
+    width: 2vw;
+    color: #00ff59;
 }

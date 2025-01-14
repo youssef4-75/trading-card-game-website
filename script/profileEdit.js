@@ -9,40 +9,12 @@ function saveProfile(profileData) {
         window.location.href = "login.html";
         return;
     }
-    
+
     profileData.token = token;
 
-    const url = getURL(`profiles`);
-
-    fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(profileData),
-    })
-        .then(response => {
-            if (response.status === 401) {
-                return response.json().then((data) => {
-                    alert(data.message); // Show alert: 'Token is missing'
-                    window.location.href = "login.html"; // Redirect to login page
-                });
-            }
-            if (!response.ok) {
-                return response.json().then(data => {
-                    throw new Error(data.message || 'Failed to fetch user inventory');
-                });
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('User data updated successfully:', data.message);
-            // inventory.length = 0;  
-        })
-        .catch(error => {
-            console.error('Error fetching user data:', error.message);
-            alert(error.message); // Show an error message to the user
-        });
+    sendRequest(`profiles`, profileData, 'PUT', "Error updating user data: ",
+        data => console.log('User data updated successfully: ', data.message),
+    )
 }
 
 document.getElementById('edit-profile-form').addEventListener('submit', function (e) {
@@ -56,7 +28,7 @@ document.getElementById('edit-profile-form').addEventListener('submit', function
     };
 
     // Update the preview
-    document.getElementById('profile-icon-preview').src = profileData.profileIcon || 'https://via.placeholder.com/100';
+    document.getElementById('profile_img').src = profileData.profile_url || 'https://th.bing.com/th/id/OIP.OZHMzsNssTIUa6TUUZykRQHaHa?rs=1&pid=ImgDetMain';
     document.getElementById('username-preview').textContent = profileData.username;
 
     // Call the backend placeholder function

@@ -1,14 +1,25 @@
+const colors = {
+    Common: list("#A9A9A9", 3),
+    Uncommon: list("#32CD32", 3),
+    Rare: list("#1E90FF", 3),
+    Epic: list("#8A2BE2", 3),
+    Legendary: ["#B700FF", "#00EEFF", "#00FF59"],
+}
+
+function list(a, i){
+    al = [];
+    for(let j=0; j<i; j++){
+        al.push(a);
+    }
+    return al;
+}
+
 
 function editProfile() {
-    console.log("Edit profile backend logic placeholder");
     window.location.href = 'profileEdit.html';
 }
 
 function loadProfile() {
-    console.log("Load profile backend logic placeholder");
-
-
-
     const token = localStorage.getItem('userToken'); // Retrieve token from local storage
 
     if (!token) {
@@ -17,52 +28,38 @@ function loadProfile() {
         return;
     }
 
-    const url = getURL(`loading`);
-
-
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token }),
-    })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(data => {
-                    throw new Error(data.message || 'Failed to fetch user data');
-                });
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('User data fetched successfully:', data.data);
+    sendRequest(`loading`, { token }, 'POST', "Error fetching user data: ", 
+        data => {
             const username = data.data.username;
             const displayName = data.data.display_name;
             const description = data.data.description;
+            const url = data.data.profile_icon;
 
             document.getElementById("username").textContent = username;
             document.getElementById("displayName").textContent = `Display Name: ${displayName}`;
             document.getElementById("description").textContent = `Description: ${description}`;
-        })
-        .catch(error => {
-            console.error('Error fetching user data:', error.message);
-            alert(error.message); // Show an error message to the user
-        });
-
-
-
-
-
-    // // Placeholder logic for loading user data dynamically
-    // const username = "CardMaster";
-    // const displayName = "Master of Cards";
-    // const description = "Loves collecting and trading rare cards.";
-
-    // document.getElementById("username").textContent = username;
-    // document.getElementById("displayName").textContent = `Display Name: ${displayName}`;
-    // document.getElementById("description").textContent = `Description: ${description}`
+            document.getElementById("profile-icon").src = url;
+        }
+    )
 }
+
+function countOccurrences(items) {
+    const counts = {};
+    const rarities = {}
+
+    // Count occurrences of each item
+    items.forEach(item => {
+        counts[item.name] = (counts[item.name] || 0) + 1;
+        rarities[item.name] = item.rarity;
+    });
+
+    // Convert the counts object into a list of tuples
+    return {
+        occ: Object.entries(counts),
+        rar: Object.entries(rarities)
+    };
+}
+
 
 function loadInventory() {
 
@@ -72,7 +69,6 @@ function loadInventory() {
         // { name: "Earth Golem", rarity: "Common" }
     ];
 
-
     const token = localStorage.getItem('userToken'); // Retrieve token from local storage
 
     if (!token) {
@@ -81,32 +77,8 @@ function loadInventory() {
         return;
     }
 
-    const url = getURL(`inventory`);
-
-
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token }),
-    })
-        .then(response => {
-            if (response.status === 401) {
-                return response.json().then((data) => {
-                    alert(data.message); // Show alert: 'Token is missing'
-                    window.location.href = "login.html"; // Redirect to login page
-                });
-            }
-            if (!response.ok) {
-                return response.json().then(data => {
-                    throw new Error(data.message || 'Failed to fetch user inventory');
-                });
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('User inventory fetched successfully:', data.data);
+    sendRequest(`inventory`, { token }, 'POST', "Error loading the users inventory", 
+        data => {
             // inventory.length = 0;  
             data.data.forEach(card => {
                 inventory.push({
@@ -118,20 +90,33 @@ function loadInventory() {
             const inventoryList = document.getElementById("inventory");
             inventoryList.innerHTML = "";
 
-            inventory.forEach(item => {
+            const ultimateInventory = countOccurrences(inventory);
+
+            for(let i=0; i<ultimateInventory.occ.length; i++){
+                const card_name = ultimateInventory.occ[i][0];
+                const card_occ = ultimateInventory.occ[i][1];
+                const card_rar= ultimateInventory.rar[i][1];
+
+
                 const listItem = document.createElement("li");
+                listItem.style.background = `linear-gradient(to right, ${colors[card_rar][0]}, ${colors[card_rar][1]});`
                 listItem.innerHTML = `
-            <span class="item-name">${item.name}</span>
-            <span class="item-rarity">${item.rarity}</span>
+            <span class="item-name">${card_name} × ${card_occ}</span>
+            <span class="item-rarity" style="
+    background: linear-gradient(to bottom right, ${colors[card_rar][0]} 8%, ${colors[card_rar][1]} 50%, ${colors[card_rar][2]} 90%);padding: 10px;
+    border-radius: 17px;
+    width: 100px;
+    text-align: center
+            ">${card_rar}</span>
         `;
                 inventoryList.appendChild(listItem);
-            });
+            
+                 
+            }
 
-        })
-        .catch(error => {
-            console.error('Error fetching user data:', error.message);
-            alert(error.message); // Show an error message to the user
-        });
+        }        
+    )
+
 }
 
 function logout() {

@@ -12,7 +12,6 @@
     <header>
         <h1>TCG Manager</h1>
         <nav>
-            <a href="index.html">Home</a>
             <a href="profile.html">Profile</a>
             <a href="inventory.html">Inventory</a>
             <a href="trades.html">Trades</a>
@@ -38,15 +37,18 @@
 
                 <label for="requested-cards">Requested Cards (comma-separated):</label>
                 <input type="text" id="requested-cards" placeholder="Enter the cards you want" required><br><br>
-
                 <button type="submit">Submit Trade</button>
             </form>
         </div>
 
+
         <div class="modal" id="trade-modal">
             <div class="modal-header">
                 <h3>Trade Details</h3>
-                <button onclick="closeModal('trade-modal')">Close</button>
+                <div class="two-buttons-div">
+                    <button onclick="closeModal('trade-modal')">Close</button>
+                    <button id="accepting-trade" onclick="acceptTrade('trade-modal')">Accept</button>
+                </div>
             </div>
             <div class="modal-body" id="modal-body">
                 <!-- Trade details will be dynamically inserted here -->

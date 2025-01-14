@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile - TCG Manager</title>
     <link rel="stylesheet" href="style/profileEdit.css">
 </head>
+
 <body>
     <header>
         <h1>TCG Manager</h1>
         <nav>
-            <a href="index.html">Home</a>
             <a href="profile.html">Profile</a>
             <a href="inventory.html">Inventory</a>
-            <a href="feed.html">Feed</a>
-            <a href="chat.html">Chat</a>
+            <a href="trades.html">Trades</a>
         </nav>
     </header>
 
@@ -22,7 +22,7 @@
         <div class="card">
             <h2>Edit Profile</h2>
             <div class="profile-preview">
-                <img src="https://via.placeholder.com/100" alt="Profile Icon" id="profile-icon-preview">
+                <img id="profile_img" alt="Profile Icon" id="profile-icon-preview">
                 <p id="username-preview">Username</p>
             </div>
             <form id="edit-profile-form">
@@ -42,9 +42,10 @@
             </form>
         </div>
     </div>
-    
+
     <script src="script/__var.js"></script>
     <script src="script/connect.js"></script>
     <script src="script/profileEdit.js"></script>
 </body>
+
 </html>

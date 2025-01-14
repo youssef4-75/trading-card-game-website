@@ -110,7 +110,13 @@ button:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     width: 80%;
     max-width: 500px;
+
+    height: 80vh;
+    overflow: scroll;
+    scrollbar-width: none;
 }
+
+
 
 .modal.active {
     display: block;
@@ -139,3 +145,15 @@ button:hover {
     border-radius: 5px;
     margin-bottom: 10px;
 }
+
+
+.two-buttons-div{
+    display: grid;
+    row-gap: 12px;
+}
+
+
+#cards-container{
+    width: 40%;
+}
+
