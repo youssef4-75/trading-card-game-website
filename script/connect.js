@@ -1,13 +1,13 @@
-function defaulthandleResponse(response){
+function defaulthandleResponse(response) {
     if (response.status === 401) {
         return response.json().then((data) => {
-            alert(data.message); 
-            window.location.href = "login.html"; 
+            alert(data.message);
+            window.location.href = "login.html";
         });
     }
     if (!response.ok) {
         return response.json().then(data => {
-            throw new Error(data.message || 'Failed to fetch user inventory');
+            throw new Error(data.message || 'Failed to do requested action, ask youssef to give you more information about the problem');
         });
     }
     return response.json();
@@ -18,13 +18,13 @@ function sendRequest(
     message,
     method,
     error_message,
-    handleResponseData,
-    handleResponse = (response) => response.json() // Default JSON handler
+    handleData,
+    handleResponse = defaulthandleResponse
 ) {
     const url = getURL(route);
 
     const options = {
-        method: method.toUpperCase(), // Ensure method is in uppercase (e.g., GET, POST)
+        method: method.toUpperCase(),
         headers: {
             'Content-Type': 'application/json',
         },
@@ -36,22 +36,16 @@ function sendRequest(
     }
 
     fetch(url, options)
-        .then((response) => {
-            if (!response.ok) {
-                // Handle HTTP errors (non-2xx status codes)
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return handleResponse(response); // Default: parse JSON
-        })
-        .then(handleResponseData) // Process response data
+        .then(handleResponse)
+        .then(handleData)
         .catch((error) => {
             console.error(error_message, error.message);
-            alert(error.message); // Alert user of error
+            alert(error.message);
         });
 }
 
 
 
-function getURL(route){
+function getURL(route) {
     return `https://trading-card-game-server.onrender.com/` + route;
 }

@@ -44,7 +44,7 @@ function login(email, password) {
         newUser: false
     };
 
-    sendRequest(`authenticate`, message, 'POST', "Error while trying to log", data=>{
+    sendRequest(`authenticate`, message, 'POST', "Error while trying to log", data => {
         handleResponseData('Success:', data)
     }, response => {
         if (!response.ok) {
@@ -53,8 +53,8 @@ function login(email, password) {
                 throw new Error(data.message || 'Unauthorized');
             });
         }
-        return response.json(); 
-        
+        return response.json();
+
     })
 }
 
@@ -67,7 +67,7 @@ function register(email, password, username) {
         newUser: true
     };
 
-    sendRequest(`authenticate`, message, 'POST', "Error in registring", data=>handleResponseData("Succes", data))
+    sendRequest(`authenticate`, message, 'POST', "Error in registring", data => handleResponseData("Succes", data))
 }
 
 document.getElementById('auth-form').addEventListener('submit', function (e) {
